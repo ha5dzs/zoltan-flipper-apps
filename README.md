@@ -1,2 +1,166 @@
-# zoltan-flipper-apps
-My Flipper Zero application repository
+# Zoltan's modified Flipper Zero app collection
+
+This is my Flipper Zero application repository. If you know how to program, you will be appalled, because most of this code is 'ey eye slop'.
+
+I really made this to test my own AI-based code generation pipeline. I don't think I have enough to publish this separately yet, I am on a ride myself with this as I write it.
+
+## Why
+
+Let's say, you want to write code to execute a task repeatedly. Let's say that the task is ~~stabbing yourself in the face~~ to do nothing for a hundred times.
+
+In PC assembly, this is easy:
+
+```Assembly
+section .text
+global _start
+
+_start:
+    mov ecx, 100      ; loop counter
+loop_start:
+    dec ecx           ; ecx = ecx - 1
+    jnz loop_start    ; jump if ecx != 0
+
+    ; exit (Linux syscall)
+    mov eax, 1
+    xor ebx, ebx
+    int 0x80
+
+```
+
+...and this is the binary code that runs on your computer (IF it runs, at all...)
+
+```
+B9 64 00 00 00
+49
+75 FB
+B8 01 00 00 00
+31 DB
+CD 80
+```
+
+In MS-DOS, there is some overhead - we program in C, because we are no longer running on bare Silicon and we have an OS that takes care about the hardware, and software interrupts, executable signatures `MZ` and the likes:
+
+```C
+void main() {
+    int i;
+    for (i = 0; i < 100; i++) {
+        // do nothing here
+    }
+}
+```
+
+```Assembly
+4D 5A 1A 00 01 00 00 00 00 00 00 00 FF FF 00 00
+B9 64 00 E2 FE B8 00 4C CD 21 00 00 00 00 00 00
+
+... which roughly translates to:
+
+0010: B9 64 00        mov cx, 100
+0013: E2 FE           loop 0013h - 2 = 0011h
+0015: B8 00 4C        mov ax, 4C00h
+0018: CD 21           int 21h
+
+```
+
+Going one level above, this is what is running on the machine when a loop that does nothing is written in C#:
+
+```CSharp
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        for (int i = 0; i < 100; i++)
+        {
+            // do nothing here
+        }
+    }
+```
+
+...which then results in something like:
+
+```
+.locals init (int32 V_0)
+IL_0000: ldc.i4.0
+IL_0001: stloc.0
+IL_0002: br.s IL_000A
+
+IL_0004: ldloc.0
+IL_0005: ldc.i4.1
+IL_0006: add
+IL_0007: stloc.0
+
+IL_0008: nop
+
+IL_000A: ldloc.0
+IL_000B: ldc.i4.s 100
+IL_000D: blt.s IL_0004
+
+IL_000F: ret
+
+
+4D 5A 50 00 01 00 00 00 04 00 00 00 FF FF 00 00
+B8 00 00 00 00 00 00 00 40 00 00 00 00 00 00 00
+00 00 00 00 40 00 00 00 00 00 00 00 00 00 00 00
+50 45 00 00 4C 01 01 00 00 00 00 00 00 00 00 00
+E0 00 0F 01 0B 01 02 00 00 10 00 00 00 10 00 00
+00 00 00 00 00 20 00 00 00 02 00 00 00 02 00 00
+00 00 00 00 00 00 00 00 B9 64 00 E2 FE 31 C0 C3
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+```
+
+...which, when stripping all the dependencies and other ever-so-Microsoft-related stuff, roughly translates to:
+
+```
+; Setup i = 0
+xor     eax, eax            ; Set EAX register to 0
+jmp     SHORT G_M000_IG04   ; Jump down to the loop condition
+
+G_M000_IG03:
+; i++
+inc     eax                 ; Increment EAX by 1
+
+G_M000_IG04:
+; Compare i to 100
+cmp     eax, 100            ; Compare EAX to 100 (0x64 in hex)
+jl      SHORT G_M000_IG03   ; Jump to G_M000_IG03 if less than
+
+; Exit
+ret                         ; Return from method
+```
+
+...which is kind of similar to the Assembly code, but with much more overhead. And I hope you will forgive me for not creating register-analogue examples here.
+
+I think you can see that the higher level of abstraction you go, the more inefficient you get, because more instructions have to be executed on silicon to achieve the same thing. Timing-wise, we don't care, computers are fast these days. If your computer is slow, it's probable due to performance bottlenecks in networking, storage and interconnect buses.
+
+Creating code with generative AI is just an implementation method of an even higher, more human-friendly, _semantic_ level, in exchange for some inefficiencies on a _modal_ level. Yes, I used grammatical jargon here, because the current state of the art is using language models, which, by principle, work with text, and flow of patterns within the text. In other words, the generated code will be ugly.
+
+But unlike normal AI generated text from a chatbot, writing code is far more deterministic and rigid. And, because the generated code can easily be verified for functionality (Does it compile? Does it do what I originally intended to do?), it is easier for us humans to achieve the _semantic goals_ that we set. With the use of an agent, you can even automate the process of code generation and testing too.
+
+So, to keep this example of a loop doing nothing a hundred times, a language model will have no problem creating something like this:
+
+```C
+do {
+    int i = 0;
+    for(i=0; i<100; i++) {
+        // do nothing here
+    }
+} while (0)
+```
+
+...which, most C-programmers would say that the above implementation is outright idiotic, but will agree it is still, _semantically_ correct. From a user's point of view, this code still does nothing a hundred times, exactly as intended.
+
+And therefore, there is no point about discussing this further - people can refer to this derogatorily as vibe coding or submitting AI slop, but unless there is something very specific, such as high-security stuff or kernel development, or some design corners must be avoided, it will do. Just as how the overheads from higher-level programming languages will do.
+
+### Why do this with the Flipper Zero
+
+I wanted to learn how to write applications for it. To me, it turned out this process to be incredibly labour-intensive, the code becomes very complicated very quickly. There is minimal documentation which is up to date, and while [Derek Jamison's tutorials](https://github.com/jamisonderek/flipper-zero-tutorials/) are great, they only take you so far. Code from other users and preople are iffy at best. I found some quite horrible stuff that was hard-coded to be dysfunctional. While I went on my own, very quickly I found that I get some really cryptic error messages, and I found that not only I have to be familiar with the API, but the entire Flipper firmware too. It's OK, it's mostly open-source: bugs, unimplemented features and breaking changes from version to version are normal. Me being ambitious, I did buy a [Flipper clone with half the hardware missing and/or inferior](https://github.com/ha5dzs/geekzero-firmware), got into (a rather small degree of) understanding the firmware, only to get to the cathartical realisation that I will never be able to fully understand the entirety of it. I just don't have the time to comprehend it all, from high-level API to register-level on the hardware itself. And I am speaking of experience, I [wrote the MOTOM toolbox for a motion tracker](https://github.com/ha5dzs/motom-toolbox) that literally took 18 months away from my life understanding how it works and implementing basic sanity checks that were not included at all.
+
+When you go down this rabbit hole, there is really no turning back without suffering from PTSD. I am an interdisciplinary scientist, people not understanding what I do happens every day to me, I am used to being scientifically alone. But figuring this out is such as subproblem of a subproblem of a subproblem that I decided to take another approach.
+
+![the meme](img/callback_function_meme.jpeg)
+
+All it took is some armed conflict in my area, a mandate from working from home, and upgrading my already-decent workstation that I could borrow from work.
+
+Anyway, see the sub-directories here, each of them are dedicated projects.
