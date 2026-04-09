@@ -4,7 +4,7 @@ This is my Flipper Zero application repository. If you know how to program, you 
 
 I really made this to test my own AI-based code generation pipeline. I don't think I have enough to publish this separately yet, I am on a ride myself with this as I write it.
 
-## Why
+## In general: Why
 
 Let's say, you want to write code to execute a task repeatedly. Let's say that the task is ~~stabbing yourself in the face~~ to do nothing for a hundred times.
 
@@ -22,8 +22,8 @@ loop_start:
 
     ; exit (Linux syscall)
     mov eax, 1
-    xor ebx, ebx
-    int 0x80
+    xor ebx, ebx ; This just deletes the content of the register
+    int 0x80 ;DOS would be int 0x21
 
 ```
 
@@ -132,7 +132,7 @@ ret                         ; Return from method
 
 ...which is kind of similar to the Assembly code, but with much more overhead. And I hope you will forgive me for not creating register-analogue examples here.
 
-I think you can see that the higher level of abstraction you go, the more inefficient you get, because more instructions have to be executed on silicon to achieve the same thing. Timing-wise, we don't care, computers are fast these days. If your computer is slow, it's probable due to performance bottlenecks in networking, storage and interconnect buses.
+I think you can see that the higher level of abstraction you go, the more inefficient you get, because more instructions have to be executed on silicon to achieve the same thing. Timing-wise, we don't care, computers are fast these days. If your computer is slow, it's probable due to performance bottlenecks in networking, storage and hardware interconnect buses.
 
 Creating code with generative AI is just an implementation method of an even higher, more human-friendly, _semantic_ level, in exchange for some inefficiencies on a _modal_ level. Yes, I used grammatical jargon here, because the current state of the art is using language models, which, by principle, work with text, and flow of patterns within the text. In other words, the generated code will be ugly.
 
@@ -153,14 +153,14 @@ do {
 
 And therefore, there is no point about discussing this further - people can refer to this derogatorily as vibe coding or submitting AI slop, but unless there is something very specific, such as high-security stuff or kernel development, or some design corners must be avoided, it will do. Just as how the overheads from higher-level programming languages will do.
 
-### Why do this with the Flipper Zero
+### Why with the Flipper Zero
 
-I wanted to learn how to write applications for it. To me, it turned out this process to be incredibly labour-intensive, the code becomes very complicated very quickly. There is minimal documentation which is up to date, and while [Derek Jamison's tutorials](https://github.com/jamisonderek/flipper-zero-tutorials/) are great, they only take you so far. Code from other users and preople are iffy at best. I found some quite horrible stuff that was hard-coded to be dysfunctional. While I went on my own, very quickly I found that I get some really cryptic error messages, and I found that not only I have to be familiar with the API, but the entire Flipper firmware too. It's OK, it's mostly open-source: bugs, unimplemented features and breaking changes from version to version are normal. Me being ambitious, I did buy a [Flipper clone with half the hardware missing and/or inferior](https://github.com/ha5dzs/geekzero-firmware), got into (a rather small degree of) understanding the firmware, only to get to the cathartical realisation that I will never be able to fully understand the entirety of it. I just don't have the time to comprehend it all, from high-level API to register-level on the hardware itself. And I am speaking of experience, I [wrote the MOTOM toolbox for a motion tracker](https://github.com/ha5dzs/motom-toolbox) that literally took 18 months away from my life understanding how it works and implementing basic sanity checks that were not included at all.
+I wanted to learn how to write applications for it. To me, it turned out this process to be incredibly labour-intensive, the code becomes very complicated very quickly. There is minimal documentation which is up to date, and while [Derek Jamison's tutorials](https://github.com/jamisonderek/flipper-zero-tutorials/) are great, they only take you so far. Code from other users and people are iffy at best. I found some quite horrible stuff that was hard-coded to be dysfunctional. While I went on my own, very quickly I found that I get some really cryptic error messages, and I found that not only I have to be familiar with the API, but the entire Flipper firmware too. It's OK, it's mostly open-source: bugs, unimplemented features and breaking changes from version to version are normal. Me being ambitious, I did buy a [Flipper clone with half the hardware missing and/or inferior](https://github.com/ha5dzs/geekzero-firmware), got into (a rather small degree of) understanding the firmware, only to get to the cathartical realisation that I will never be able to fully understand the entirety of it. I just don't have the time to comprehend it all, from high-level API to register-level on the hardware itself. And I am speaking of experience, I [wrote the MOTOM toolbox for a motion tracker](https://github.com/ha5dzs/motom-toolbox) that literally took 18 months away from my life understanding how it works and implementing basic sanity checks that were not included at all.
 
-When you go down this rabbit hole, there is really no turning back without suffering from PTSD. I am an interdisciplinary scientist, people not understanding what I do happens every day to me, I am used to being scientifically alone. But figuring this out is such as subproblem of a subproblem of a subproblem that I decided to take another approach.
+When you go down this rabbit hole, there is really no turning back without suffering from PTSD. I am an interdisciplinary scientist, people not understanding what I do is everyday occurrence to me, I am used to being scientifically alone. But figuring this out is such as subproblem of a subproblem of a subproblem that I decided to take another approach.
 
 ![the meme](img/callback_function_meme.jpeg)
 
-All it took is some armed conflict in my area, a mandate from working from home, and upgrading my already-decent workstation that I could borrow from work.
+All it took is some armed conflict in my area, a mandate from working from home, and upgrading my already-decent workstation that I could borrow from work. As the code is (mostly) open-source, I can see both the API the developers get and what it does on the other side inside the device firmware. So it's much easier for me to determine whether something crashes due to me not doing something right, or me trying to breathe life into something that is supposed to work theoretically but practically it doesn't.
 
 Anyway, see the sub-directories here, each of them are dedicated projects.
