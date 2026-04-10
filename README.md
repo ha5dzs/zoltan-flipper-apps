@@ -4,8 +4,10 @@ This is my Flipper Zero application repository. If you know how to program, you 
 
 In particular:
 
-* [flipper-pocsag-pager](flipper-pocsag-pager/README.md)
+* [flipper-pocsag-pager](flipper-pocsag-pager/)
 Dive back to the 1980s and 1990s with your very own pager.
+* [flipper-gui-catalogue](flipper-gui-catalogue)
+This app is not really useful. It literally does nothing besides looking pretty.
 
 I really made this to test my own AI-based code generation pipeline. I don't think I have enough to publish this separately yet, I am on a ride myself with this as I write it.
 
