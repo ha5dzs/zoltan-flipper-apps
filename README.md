@@ -1,8 +1,14 @@
 # Zoltan's modified Flipper Zero app collection
 
-This is my Flipper Zero application repository. If you know how to program, you will be appalled, because most of this code is 'ey eye slop'.
+This is my Flipper Zero application repository. If you know how to program, you will be appalled, because most of this code is 'aey eye slop'.
+
+In particular:
+
+* [flipper-pocsag-pager](flipper-pocsag-pager/README.md)
+Dive back to the 1980s and 1990s with your very own pager.
 
 I really made this to test my own AI-based code generation pipeline. I don't think I have enough to publish this separately yet, I am on a ride myself with this as I write it.
+
 
 ## In general: Why
 
