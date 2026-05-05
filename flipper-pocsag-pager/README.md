@@ -21,9 +21,7 @@ It automatically creates this file, with the header in it. The fields are:
 In addition, it is now possible to:
 
 * **Set the local RIC of the device, so your Flipper now can behave like a REAL pager!**
-
 This is done with a compromise. GUI is difficult. There is a VariableItemList to select +/-10 RICs from the base address as specified in `pocsag_settings.txt`. Additionally, if the RIC is set to 0, then the alarm feature is disabled.
-
 * **There are additional modulation presets, but mostly they don't work.**
 I couldn't figure out how the CC1101 hardware is interacting via the Flipper HAL. Either there is a bug or something is not implementing properly, or I missed something. The 'FM95' preset deviates too high, +/- 9.5 kHz on my devices. The 'FM45' is supposed to address this to reduce the deviation to +/- 4.5 kHz (should be +/- 4.8 actually), but it doesn't. The 'FM45_B0H' inverts the bit assignment. This may be particularly useful when you only can find the sync bits and nothing else decodes, say because you are receiving some weird intermodulational product instead of the real signal.
 * **You can transmit pages too!**
