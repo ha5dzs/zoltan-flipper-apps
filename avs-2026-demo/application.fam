@@ -1,0 +1,17 @@
+# For details & more options, see documentation/AppManifests.md in firmware repo
+
+App(
+    appid="avs2026leddemo",  # Must be unique
+    name="AVS 2026 LED Demo",  # Displayed in menus
+    apptype=FlipperAppType.EXTERNAL,
+    entry_point="avs2026leddemo_main",
+    stack_size=2 * 1024,
+    fap_category="Examples",
+    # Optional values
+    # fap_version="0.1",
+    fap_icon="avs2026leddemo.png",  # 10x10 1-bit PNG
+    fap_description="Demo application for 'Managing color accuracy in next-generation displays: a human-centered, future-proof approach', presented in AVS2026.",
+    fap_author="Zoltan Derzsi",
+    # fap_weburl="https://github.com/ha5dzs/zoltan-flipper-apps/avs2026_demo_derzsi_volcic",
+    fap_icon_assets="images",  # Image assets to compile for this application
+)
