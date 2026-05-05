@@ -164,7 +164,7 @@ do {
 
 ...which, most C-programmers would say that the above implementation is outright idiotic, but will agree it is still, _semantically_ correct. From a user's point of view, this code still does nothing a hundred times, exactly as intended.
 
-And therefore, there is no point about discussing this further - people can refer to this derogatorily as vibe coding or spewing AI slop, but unless there is something very specific, such as high-security stuff, life-support stuff, kernel development, or some design corners must be avoided, it will do. Just as how the overheads from higher-level programming languages will do. Ultimately, _you_ are respondible for the _semantics_ alone, i.e. you must make sure that the code is running correctly and satisfies the requirements.
+And therefore, there is no point about discussing this further - people can refer to this derogatorily as vibe coding or spewing AI slop, but unless there is something very specific, such as high-security stuff, life-support stuff, kernel development, or some design corners must be avoided, it will do. Just as how the overheads from higher-level programming languages will do. Ultimately, _you_ are responsible for the _semantics_ alone, i.e. you must make sure that the code is running correctly and satisfies the requirements.
 
 ### Why with the Flipper Zero
 
