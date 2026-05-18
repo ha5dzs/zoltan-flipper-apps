@@ -30,6 +30,13 @@ This is a small board that slots into the header of the Flipper Zero. It contain
 
 The core part of the board are two individually addressable, WS2812B RGB LED modules. They are connected in a chain: the RGB data is expected to be fed from `PB2`, which is connected to the 'Data In' (`DI`) of the first LED module. The first (left) LED module's 'Data Out' (`DO`) is connected to the second (right) LED module's `DI`.
 
+#### Schematic
+
+![png](flipper_schematic.png)
+
+#### Implementation
+
+All components were installed on a prototyping board.
 ![jpg](flipper_with_hardware.jpg)
 
 The first LED module is powered from the Flipper Zero's 3.3V output directly (red wire on the left). The logic levels coming out from `PB2` (yellow wire) to the WS2812 LED modules are also 3.3V Low-Voltage Transistor-Transistor Logic (LVTTL) compatible.
