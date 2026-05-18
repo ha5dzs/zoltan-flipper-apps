@@ -34,7 +34,7 @@ The core part of the board are two individually addressable, WS2812B RGB LED mod
 
 ![png](flipper_schematic.png)
 
-#### Implementation
+#### Assembly
 
 All components were installed on a prototyping board.
 ![jpg](flipper_with_hardware.jpg)
@@ -60,6 +60,8 @@ In the application, we will control the duty cycle and the RGB value.
 The **user experience** is, let's just say, 'utilitarian': when the hardware is connected to the GPIO header, once the application is launched in `Apps -> Examples -> AVS 2026 LED Demo`, there will be 4 editable bytes on the screen. The first byte controls the power supply for the second LED, and the remaining three bytes are RGB values for both LEDs.
 
 With this, it is possible to demonstrate white-point shifts by simulated degradation-induced LED I-V characterstic changes: by lowering the first byte's value, the second LED will not only get dimmer, but it is becoming distinctly yellow, then eventually red. Since the LED crystals are not _actually_ degraded, changing the colour bytes will result in strange phenomena, such as a completely changed colour shift direction. With changing the RGB values, it is possible to demonstrate the different characteristics of the colour channels - when the colour is red, it can be dimmed a bit further down before noticing apparent brightness changes than with blue.
+
+#### [See video here](https://www.youtube.com/watch?v=GPZ7sVT8zyQ&t=20s)
 
 ### Implementation
 
